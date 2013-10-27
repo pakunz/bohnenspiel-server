@@ -1,0 +1,99 @@
+	<%inherit file="/base.html"/>
+	<script type="text/javascript">
+		var gameID = ${id};
+		var mode = ${mode};
+	</script> 
+	<div class="block" style="border-top: none; border-bottom: 2px solid #CCC;">
+		<span style="margin-right: 3em;">Spiel-Nr.: ${id}</span> 
+		<span style="margin-left: 3em;">Modus:</span> 
+		%if mode == 0:
+			betrachten
+		%elif mode == 1:
+			Spieler 1 spielen
+		%elif mode == 2:
+			Spieler 2 spielen
+		%elif mode == 3:
+			beide Spieler
+		%endif 	    	
+	</div>  	
+	<div id="board">
+    ${h.javascript_link('/js/code.js')}
+    	<div id="left">
+			<div class="fieldPoints"><span id="points1"> -1 </span></div>
+        </div>
+        <div id="right">
+             <div class="fieldPoints"><span id="points2"> -1 </span></div>
+        </div>
+       	<div id="center">
+           <div class="fieldRow" id="player2">
+               <div id="box12" class="field">
+                    <span id="id12">0</span>
+                    <span class="fieldID">12</span>
+               </div>
+               <div id="box11" class="field">
+                    <span id="id11">0</span>
+                    <span class="fieldID">11</span>
+               </div>
+               <div id="box10" class="field">
+                    <span id="id10">0</span>
+                    <span class="fieldID">10</span>
+               </div>
+               <div id="box9" class="field">
+                    <span id="id9">0</span>
+                    <span class="fieldID">9</span>
+               </div>
+               <div id="box8" class="field">
+                    <span id="id8">0</span>
+                    <span class="fieldID">8</span>
+               </div>
+               <div id="box7" class="field">
+                    <span id="id7">0</span>
+                    <span class="fieldID">7</span>
+               </div>            
+           </div>
+           <div class="fieldRow" id="player1">
+               <div id="box1" class="field">
+                    <span id="id1">0</span>
+                    <span class="fieldID">1</span>
+              </div>
+              <div id="box2" class="field">
+                    <span id="id2">0</span>
+                    <span class="fieldID">2</span>
+              </div>
+              <div id="box3" class="field">
+                    <span id="id3">0</span>
+                    <span class="fieldID">3</span>
+              </div>
+              <div id="box4" class="field">
+                    <span id="id4">0</span>
+                    <span class="fieldID">4</span>
+              </div>
+              <div id="box5" class="field">
+                    <span id="id5">0</span>
+                    <span class="fieldID">5</span>
+              </div>
+              <div id="box6" class="field">
+                    <span id="id6">0</span>
+                    <span class="fieldID">6</span>
+              </div>                                                                                     
+           </div>
+		</div>
+	</div>
+    <div id="match" class="block" style="clear:both;">
+		vs
+		<div id="name1" style="float: left">Player 1</div>
+		<div id="name2" style="float: right">Player 2</div>
+    </div>
+	<div style="clear:both;"></div>
+    <div id="status" class="block"></div>
+    <div id="history" class="block">
+    	History
+        <table id="historyTable">
+            <tr>
+            	<th style="width:100px;">Zug-Nr.</th>
+                <th style="width:400px;">Zug</th>
+                <th style="width:100px;">Punkte</th>
+                <th style="width:200px;">Spielfeld</th>
+            </tr>                    
+        </table>
+    </div>

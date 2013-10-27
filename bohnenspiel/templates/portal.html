@@ -1,0 +1,67 @@
+	<%inherit file="/base.html"/>   
+    <div id="startGame" class="block" style="border-top: none">
+    	<a href="${h.url(controller='start', action='startgame')}">Spiel erstellen</a>
+    </div>    
+    <div class="block">
+    %if len(openGames) !=0 or len(runningGames)!=0 or  len(finishedGames)!=0:    	
+    	%if len(openGames) !=0:
+    	offene Spiele
+        <table>
+            <tr>
+            	<th style="width:100px;">ID</th>
+                <th style="width:250px;">Spieler 1</th>
+                <th style="width:250px;">Spieler 2</th>
+                <th style="width:100px;"></th>
+                <th style="width:200px;"></th>
+            </tr>
+            ${tableRows(openGames, True)}                 
+        </table>
+        %endif
+        
+        %if len(runningGames) !=0:
+        laufende Spiele
+        <table>
+            <tr>
+            	<th style="width:100px;">ID</th>
+                <th style="width:250px;">Spieler 1</th>
+                <th style="width:250px;">Spieler 2</th>
+                <th style="width:100px;">Stand</th>
+                <th style="width:200px;"></th>
+            </tr>
+		    ${tableRows(runningGames)}            
+        </table>        
+        %endif
+        
+        %if len(finishedGames) !=0:
+        beendete Spiele        
+        <table>
+            <tr>
+            	<th style="width:100px;">ID</th>
+                <th style="width:250px;">Spieler 1</th>
+                <th style="width:250px;">Spieler 2</th>
+                <th style="width:100px;">Stand</th>
+                <th style="width:200px;"></th>
+            </tr>
+		    ${tableRows(finishedGames)}                 
+        </table>
+        %endif
+    %else:
+    	Es existieren noch keine Spiele.
+    %endif
+    </div>
+    
+<%def name="tableRows(values, play = False )">
+	% for row in values:
+            <tr>
+            	<td>${row[0]}</td>
+                <td>${row[1]}</td>
+                <td>${row[2]}</td>
+                %if not play:
+                <td>${row[3]}</td>
+                %else:
+                <td><a href="${h.url(controller='start', action='enter', id=row[0])}">spielen</a></td>
+                %endif
+                <td><a href="${h.url(controller='start', action='show', id=row[0])}">betrachten</a></td>
+            </tr> 
+   % endfor
+</%def>    

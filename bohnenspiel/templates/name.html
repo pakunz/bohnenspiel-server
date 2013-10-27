@@ -1,0 +1,108 @@
+	<%inherit file="/base.html"/>
+	
+    <div class="block" style="border-top: none">
+    	${stateText}
+    </div>
+    
+    %if mode == 0:
+    <div class="block">
+    	Anzahl der lokalen Spieler: <br/>
+    	${h.radio('player', 'n1',  label="ein Spieler",class_="radio")}
+    	${h.radio('player', 'n2' , label="zwei Spieler",class_="radio")}
+    </div>
+    %endif
+    <div class="block">
+        <input type="button" value="OK" class="buttonName"/>      	
+        <p>Spieler 
+        	%if mode == 0 : 
+        		1 
+        	%endif 
+         : <input id="p1" type="text" maxlength="15"  class="inputName"/></p>
+    %if mode == 0:
+        <p id="pp2" style="display: none;">Spieler 2 : <input id="p2" type="text" maxlength="15" class="inputName"/></p>
+    %endif
+    	<div style="clear: right;"></div>
+    </div>
+    
+    
+    <script type="text/javascript">
+        $(document).ready(function(){     	
+        	var nPlayer = 1;
+        	var $radios = $('input:radio[name=player]');
+        	$radios.filter('[value=n1]').attr('checked', true);
+        	
+        	$("#player_n1").val('n1');
+            $(this).find("input:radio[name='player']").click(function() {
+				var value = $("input:radio:checked[name='player']").val();
+				if (value == 'n1'){
+					$('#pp2').hide();
+				} else {
+					$('#pp2').show();			
+				}
+            });
+            
+            
+            $('input:button').click(function () {
+	      		var playerName1, playerName2;
+				
+	      		%if mode == 0:	      		
+	      		if ($("input:radio:checked[name='player']").val()=='n1'){
+	      			playerName1 = $('#p1').val().split(' ').join('');		      			
+	      			if (playerName1.length < 2){
+	      				alert('Ein Spielername ist zu kurz.')
+	      			} else {
+	      				var gameID = createGame(playerName1);
+	      				window.location.replace('/start/p1/'+gameID);
+	      			}
+	      		} else {
+	      			playerName1 = $('#p1').val().split(' ').join('');		      			
+	      			playerName2 = $('#p2').val().split(' ').join('');
+	      			if (playerName1.length < 2 || playerName2.length < 2){
+	      				alert('Ein Spielername ist zu kurz.');
+	      			} else if (playerName1 === playerName2){
+	      				alert('Die Spielernamen müssen verschieden sein.');
+	      			} else {
+	      				var gameID = createGame(playerName1);
+	      				var joinRes = joinGame(gameID,playerName2);
+	      				if (joinRes == 1){
+	      					window.location.replace('/start/play/'+gameID);
+	      				} else {
+	      					errorMsg(joinRes);      					
+	      				}
+	      			}
+	      		}
+	      		%else:
+	      			playerName1 = $('#p1').val().split(' ').join('');		      			
+      				if (playerName1.length < 2){
+      					alert('Ein Spielername ist zu kurz.')
+      				} else {
+      					var joinRes = joinGame(${id},playerName1);
+      					if (joinRes == 1){
+      						window.location.replace('/start/p2/'+${id});
+      					} else {
+	      					errorMsg(joinRes);      					
+	      				}
+      				}
+	      		%endif
+			});
+            
+            function errorMsg(msg){
+            	alert ('Ein Fehler ist aufgetreten. ' + msg)	
+            }
+            
+            function createGame(player){
+            	return $.ajax({
+            		  url: '/api/creategame/' + player,
+            		  async: false
+            		 }).responseText;
+            }
+            
+            function joinGame(id, player){
+            	return $.ajax({
+          		  url: '/api/joingame/' + id + '/' + player,
+          		  async: false
+          		 }).responseText;            	
+            }
+                       
+        });
+    </script>

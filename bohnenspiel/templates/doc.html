@@ -1,0 +1,76 @@
+<%inherit file="/base.html"/>\
+<h2>${page}</h2>
+
+<p><span class="bold">[domain] = </span>http://drachten.informatik.uni-mannheim.de/api</p>
+<table class="apiTable" style="margin-left: 2em;" border="0" cellpadding="0" cellspacing="0" >
+	<thead>
+		<tr>
+			<th style="width: 200px">URI</th>
+			<th style="width: 120px">Operation</th>                
+			<th style="width: 200px">Parameter</th>
+			<th style="width: 120px">Accept</th>
+			<th style="width: 300px">Effect</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>[domain]/creategame/</td>
+	        <td style="text-align: center;">GET</td>
+		    <td>name</td>                
+	        <td style="text-align: center;">e.g. 'Test'</td>
+	        <td>returns the gameid</td>
+	   </tr>
+	   <tr>
+	        <td>[domain]/check/</td> 
+	        <td style="text-align: center;">GET</td>
+	        <td>gameid/name</td>                
+	        <td style="text-align: center;">e.g. '1/Test'</td>
+	        <td>returns the state
+	        <ul><li>0: The game can be started</li><li>-1: It's your turn</li><li>-2: The game is finished</li><li>-3: It's not your turn</li><li>-4: Player 2 is missing</li><li>1-12: The last move of your opponent</li></ul></td>
+	   </tr>
+	   <tr>
+	        <td>[domain]/opengames/</td> 
+	        <td style="text-align: center;">GET</td>
+	        <td>-</td>                
+	        <td style="text-align: center;">-</td>
+	        <td>returns all game urls as a string (delimiter ';')</td>
+	   </tr>
+	   <tr>
+	        <td>[domain]/joingame/</td> 
+	        <td style="text-align: center;">GET</td>
+	        <td>gameid/name</td>                
+	        <td style="text-align: center;">e.g. '1/Test'</td>
+	        <td>returns the result
+	        <ul><li>0: Cannot enter the game</li><li>1: successfully joined</li></ul></td>
+	   </tr>
+	   <tr>
+	        <td>[domain]/state/</td> 
+	        <td style="text-align: center;">GET</td>
+	        <td>gameid</td>                
+	        <td style="text-align: center;">e.g. '1'</td>
+	        <td>returns state of the game
+	        <ul><li>0: waiting</li><li>1: running</li><li>2: finished</li></ul></td>
+	   </tr>
+	   <tr>
+	        <td>[domain]/statemsg/</td> 
+	        <td style="text-align: center;">GET</td>
+	        <td>gameid</td>                
+	        <td style="text-align: center;">e.g. '1'</td>
+	        <td>returns a description/explanation of the current state (/api/state/)</td>
+	   </tr>
+	   <tr>
+	        <td>[domain]/move/</td>
+	        <td style="text-align: center;">GET</td>
+	        <td>gameid/name/fieldID</td>                
+	        <td style="text-align: center;">e.g. '1/Test/6'</td>
+	        <td>returns nothing</td>
+	   </tr>
+	</tbody>
+</table>
+
+<h2>Examples</h2>
+<div style="text-align: left; margin: 30px;"><b>create a game:</b> [domain]/creategame/magic (magic is the name of the new game)</div>
+<div style="text-align: left; margin: 30px;"><b>make a move:</b> [domain]/move/magic/max/3 (max is your player name and '3' represents a valid bean-bowl (1-12))</div>
+
+<h2>Runnable Client</h2>
+<div style="text-align: left; margin: 30px;"><b>java client:</b> <a href="/Main.java">Main.java</a></div>

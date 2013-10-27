@@ -1,0 +1,3 @@
+include bohnenspiel/config/deployment.ini_tmpl
+recursive-include bohnenspiel/public *
+recursive-include bohnenspiel/templates *

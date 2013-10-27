@@ -1,0 +1,6 @@
+*.pyc
+*.log
+*.rdf
+data/
+core/data/
+/bin
